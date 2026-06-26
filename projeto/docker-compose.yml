@@ -1,0 +1,26 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: backend_api_db
+    environment:
+      MYSQL_ROOT_PASSWORD: senha_mestre_root
+      MYSQL_DATABASE: meu_banco_api
+      MYSQL_USER: usuario_api
+      MYSQL_PASSWORD: senha_secreta_api
+    ports:
+      - "3307:3306"
+
+  app:
+    build: .
+    container_name: backend_api_app
+    ports:
+      - "3001:3000"
+    environment:
+      - NODE_ENV=production
+      - DB_HOST=db
+      - DB_USER=usuario_api
+      - DB_PASSWORD=senha_secreta_api
+      - DB_NAME=meu_banco_api
+      - PORT=3000
+    depends_on:
+      - db
